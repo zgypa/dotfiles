@@ -172,7 +172,7 @@ def install_homebrew
   puts "======================================================"
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
-  run %{brew install zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop}
+  run %{brew install zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop task taskwarrior-tui}
   run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask}
   puts
   puts
@@ -274,6 +274,10 @@ def install_prezto
   run %{ mkdir -p $HOME/.zsh.before }
   run %{ mkdir -p $HOME/.zsh.after }
   run %{ mkdir -p $HOME/.zsh.prompts }
+
+  puts
+  puts "Creating tmp directory"
+  run %{ mkdir -p $HOME/tmp }
 
   if "#{ENV['SHELL']}".include? 'zsh' then
     puts "Zsh is already configured as your shell of choice. Restart your session to load the new settings"
