@@ -12,6 +12,11 @@ elif [[ $unamestr == 'Darwin' ]]; then
   platform='darwin'
 fi
 
+# Date
+alias isodts='date +%F\ %T'
+alias isodate='date --iso-8601 2> /dev/null || date +%F'
+alias isowdate='date +%Y-W%V-%u'
+
 # YADR support
 alias yav='yadr vim-add-plugin'
 alias ydv='yadr vim-delete-plugin'
