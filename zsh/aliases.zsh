@@ -20,6 +20,12 @@ alias isowdate='date +%Y-W%V-%u'
 # Taskwarrior
 alias twt='taskwarrior-tui'
 
+# SSH
+alias ssh-gingo='ssh -F $HOME/.ssh/gingo/config'
+alias scp-gingo='scp -F $HOME/.ssh/gingo/config'
+alias ssh-compri='ssh -F $HOME/.ssh/compri/config'
+alias scp-compri='scp -F $HOME/.ssh/compri/config'
+
 # YADR support
 alias yav='yadr vim-add-plugin'
 alias ydv='yadr vim-delete-plugin'
