@@ -44,7 +44,6 @@ alias cls='clear;ls'
 
 # Show human friendly numbers and colors
 alias df='df -h'
-alias du='du -h -d 2'
 
 if [[ $platform == 'linux' ]]; then
   alias ll='ls -alh --color=auto'
