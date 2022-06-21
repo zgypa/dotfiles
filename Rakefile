@@ -173,7 +173,7 @@ def install_homebrew
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
   run %{brew install zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop task taskwarrior-tui lazygit gpg git-flow}
-  run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake}
+  run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick}
   puts
   puts
 end
