@@ -132,8 +132,8 @@ def number_of_cores
 end
 
 def run_bundle_config
-  return unless system("which bundle")
 
+  return unless system("which bundle")
   bundler_jobs = number_of_cores - 1
   puts "======================================================"
   puts "Configuring Bundlers for parallel gem installation"
@@ -158,7 +158,7 @@ def install_ubuntu_apps
   run %{sudo apt install --yes apt-transport-https curl && sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list && sudo apt update && sudo apt install --yes brave-browser}
   
   # Install other apps
-  run %{sudo apt install --yes tmux htop taskwarrior lazygit docker.io git-flow} 
+  run %{sudo apt install --yes tmux htop taskwarrior lazygit docker.io docker-compose git-flow} 
 end
 
 def install_homebrew
