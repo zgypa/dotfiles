@@ -1,6 +1,6 @@
-require 'rake'
-require 'fileutils'
-require File.join(File.dirname(__FILE__), 'bin', 'yadr', 'vundle')
+require "rake"
+require "fileutils"
+require File.join(File.dirname(__FILE__), "bin", "yadr", "vundle")
 
 desc "Hook our dotfiles into system-standard positions."
 task :install => [:submodule_init, :submodules] do
@@ -11,17 +11,18 @@ task :install => [:submodule_init, :submodules] do
   puts
 
   install_homebrew if RUBY_PLATFORM.downcase.include?("darwin")
+  install_ubuntu_apps if RUBY_PLATFORM.downcase.include?("linux")
   install_rvm_binstubs
 
   # this has all the runcoms from this directory.
-  install_files(Dir.glob('git/*')) if want_to_install?('git configs (color, aliases)')
-  install_files(Dir.glob('irb/*')) if want_to_install?('irb/pry configs (more colorful)')
-  install_files(Dir.glob('ruby/*')) if want_to_install?('rubygems config (faster/no docs)')
-  install_files(Dir.glob('ctags/*')) if want_to_install?('ctags config (better js/ruby support)')
-  install_files(Dir.glob('tmux/*')) if want_to_install?('tmux config')
-  install_files(Dir.glob('vimify/*')) if want_to_install?('vimification of command line tools')
-  if want_to_install?('vim configuration (highly recommended)')
-    install_files(Dir.glob('{vim,vimrc}'))
+  install_files(Dir.glob("git/*")) if want_to_install?("git configs (color, aliases)")
+  install_files(Dir.glob("irb/*")) if want_to_install?("irb/pry configs (more colorful)")
+  install_files(Dir.glob("ruby/*")) if want_to_install?("rubygems config (faster/no docs)")
+  install_files(Dir.glob("ctags/*")) if want_to_install?("ctags config (better js/ruby support)")
+  install_files(Dir.glob("tmux/*")) if want_to_install?("tmux config")
+  install_files(Dir.glob("vimify/*")) if want_to_install?("vimification of command line tools")
+  if want_to_install?("vim configuration (highly recommended)")
+    install_files(Dir.glob("{vim,vimrc}"))
     Rake::Task["install_vundle"].execute
   end
 
@@ -37,12 +38,12 @@ task :install => [:submodule_init, :submodules] do
 end
 
 task :install_prezto do
-  if want_to_install?('zsh enhancements & prezto')
+  if want_to_install?("zsh enhancements & prezto")
     install_prezto
   end
 end
 
-desc 'Updates the installation'
+desc "Updates the installation"
 task :update do
   Rake::Task["vundle_migration"].execute if needs_migration_to_vundle?
   Rake::Task["install"].execute
@@ -83,12 +84,12 @@ task :vundle_migration do
   puts "file .vim/vundles.vim"
   puts "======================================================"
 
-  Dir.glob(File.join('vim', 'bundle','**')) do |sub_path|
-    run %{git config -f #{File.join('.git', 'config')} --remove-section submodule.#{sub_path}}
+  Dir.glob(File.join("vim", "bundle", "**")) do |sub_path|
+    run %{git config -f #{File.join(".git", "config")} --remove-section submodule.#{sub_path}}
     # `git rm --cached #{sub_path}`
-    FileUtils.rm_rf(File.join('.git', 'modules', sub_path))
+    FileUtils.rm_rf(File.join(".git", "modules", sub_path))
   end
-  FileUtils.mv(File.join('vim','bundle'), File.join('vim', 'bundle.old'))
+  FileUtils.mv(File.join("vim", "bundle"), File.join("vim", "bundle.old"))
 end
 
 desc "Runs Vundle installer in a clean vim environment"
@@ -100,7 +101,7 @@ task :install_vundle do
 
   puts ""
 
-  vundle_path = File.join('vim','bundle', 'vundle')
+  vundle_path = File.join("vim", "bundle", "vundle")
   unless File.exists?(vundle_path)
     run %{
       cd $HOME/.yadr
@@ -111,13 +112,13 @@ task :install_vundle do
   Vundle::update_vundle
 end
 
-task :default => 'install'
-
+task :default => "install"
 
 private
+
 def run(cmd)
   puts "[Running] #{cmd}"
-  `#{cmd}` unless ENV['DEBUG']
+  `#{cmd}` unless ENV["DEBUG"]
 end
 
 def number_of_cores
@@ -149,6 +150,15 @@ def install_rvm_binstubs
   puts "======================================================"
   run %{ chmod +x $rvm_path/hooks/after_cd_bundler }
   puts
+end
+
+def install_ubuntu_apps
+  run %{sudo apt update}
+  # Install Brave. Taken from Brave website
+  run %{sudo apt install --yes apt-transport-https curl && sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list && sudo apt update && sudo apt install --yes brave-browser}
+  
+  # Install other apps
+  run %{sudo apt install --yes tmux htop taskwarrior lazygit docker.io git-flow} 
 end
 
 def install_homebrew
@@ -197,7 +207,7 @@ def install_term_theme
   run %{ /usr/libexec/PlistBuddy -c "Merge 'iTerm2/Solarized Dark.itermcolors' :'Custom Color Presets':'Solarized Dark'" ~/Library/Preferences/com.googlecode.iterm2.plist }
 
   # If iTerm2 is not installed or has never run, we can't autoinstall the profile since the plist is not there
-  if !File.exists?(File.join(ENV['HOME'], '/Library/Preferences/com.googlecode.iterm2.plist'))
+  if !File.exists?(File.join(ENV["HOME"], "/Library/Preferences/com.googlecode.iterm2.plist"))
     puts "======================================================"
     puts "To make sure your profile is using the solarized theme"
     puts "Please check your settings under:"
@@ -210,32 +220,32 @@ def install_term_theme
   message = "Which theme would you like to apply to your iTerm2 profile?"
   color_scheme = ask message, iTerm_available_themes
 
-  return if color_scheme == 'None'
+  return if color_scheme == "None"
 
-  color_scheme_file = File.join('iTerm2', "#{color_scheme}.itermcolors")
+  color_scheme_file = File.join("iTerm2", "#{color_scheme}.itermcolors")
 
   # Ask the user on which profile he wants to install the theme
   profiles = iTerm_profile_list
-  message = "I've found #{profiles.size} #{profiles.size>1 ? 'profiles': 'profile'} on your iTerm2 configuration, which one would you like to apply the Solarized theme to?"
-  profiles << 'All'
+  message = "I've found #{profiles.size} #{profiles.size > 1 ? "profiles" : "profile"} on your iTerm2 configuration, which one would you like to apply the Solarized theme to?"
+  profiles << "All"
   selected = ask message, profiles
 
-  if selected == 'All'
-    (profiles.size-1).times { |idx| apply_theme_to_iterm_profile_idx idx, color_scheme_file }
+  if selected == "All"
+    (profiles.size - 1).times { |idx| apply_theme_to_iterm_profile_idx idx, color_scheme_file }
   else
     apply_theme_to_iterm_profile_idx profiles.index(selected), color_scheme_file
   end
 end
 
 def iTerm_available_themes
-   Dir['iTerm2/*.itermcolors'].map { |value| File.basename(value, '.itermcolors')} << 'None'
+  Dir["iTerm2/*.itermcolors"].map { |value| File.basename(value, ".itermcolors") } << "None"
 end
 
 def iTerm_profile_list
-  profiles=Array.new
+  profiles = Array.new
   begin
-    profiles <<  %x{ /usr/libexec/PlistBuddy -c "Print :'New Bookmarks':#{profiles.size}:Name" ~/Library/Preferences/com.googlecode.iterm2.plist 2>/dev/null}
-  end while $?.exitstatus==0
+    profiles << %x{ /usr/libexec/PlistBuddy -c "Print :'New Bookmarks':#{profiles.size}:Name" ~/Library/Preferences/com.googlecode.iterm2.plist 2>/dev/null}
+  end while $?.exitstatus == 0
   profiles.pop
   profiles
 end
@@ -243,15 +253,15 @@ end
 def ask(message, values)
   puts message
   while true
-    values.each_with_index { |val, idx| puts " #{idx+1}. #{val}" }
+    values.each_with_index { |val, idx| puts " #{idx + 1}. #{val}" }
     selection = STDIN.gets.chomp
-    if (Float(selection)==nil rescue true) || selection.to_i < 0 || selection.to_i > values.size+1
+    if (Float(selection) == nil rescue true) || selection.to_i < 0 || selection.to_i > values.size + 1
       puts "ERROR: Invalid selection.\n\n"
     else
       break
     end
   end
-  selection = selection.to_i-1
+  selection = selection.to_i - 1
   values[selection]
 end
 
@@ -262,12 +272,12 @@ def install_prezto
   run %{ ln -nfs "$HOME/.yadr/zsh/prezto" "${ZDOTDIR:-$HOME}/.zprezto" }
 
   # The prezto runcoms are only going to be installed if zprezto has never been installed
-  install_files(Dir.glob('zsh/prezto-override/zshrc'), :symlink)
-  install_files(Dir.glob('zsh/prezto/runcoms/zlogin'), :symlink)
-  install_files(Dir.glob('zsh/prezto/runcoms/zlogout'), :symlink)
-  install_files(Dir.glob('zsh/prezto-override/zpreztorc'), :symlink)
-  install_files(Dir.glob('zsh/prezto/runcoms/zprofile'), :symlink)
-  install_files(Dir.glob('zsh/prezto/runcoms/zshenv'), :symlink)
+  install_files(Dir.glob("zsh/prezto-override/zshrc"), :symlink)
+  install_files(Dir.glob("zsh/prezto/runcoms/zlogin"), :symlink)
+  install_files(Dir.glob("zsh/prezto/runcoms/zlogout"), :symlink)
+  install_files(Dir.glob("zsh/prezto-override/zpreztorc"), :symlink)
+  install_files(Dir.glob("zsh/prezto/runcoms/zprofile"), :symlink)
+  install_files(Dir.glob("zsh/prezto/runcoms/zshenv"), :symlink)
 
   puts
   puts "Creating directories for your customizations"
@@ -279,7 +289,7 @@ def install_prezto
   puts "Creating tmp directory"
   run %{ mkdir -p $HOME/tmp }
 
-  if "#{ENV['SHELL']}".include? 'zsh' then
+  if "#{ENV["SHELL"]}".include? "zsh"
     puts "Zsh is already configured as your shell of choice. Restart your session to load the new settings"
   else
     puts "Setting zsh as your default shell"
@@ -295,10 +305,10 @@ def install_prezto
   end
 end
 
-def want_to_install? (section)
-  if ENV["ASK"]=="true"
+def want_to_install?(section)
+  if ENV["ASK"] == "true"
     puts "Would you like to install configuration files for: #{section}? [y]es, [n]o"
-    STDIN.gets.chomp == 'y'
+    STDIN.gets.chomp == "y"
   else
     true
   end
@@ -306,7 +316,7 @@ end
 
 def install_files(files, method = :symlink)
   files.each do |f|
-    file = f.split('/').last
+    file = f.split("/").last
     source = "#{ENV["PWD"]}/#{f}"
     target = "#{ENV["HOME"]}/.#{file}"
 
@@ -331,19 +341,18 @@ def install_files(files, method = :symlink)
 end
 
 def needs_migration_to_vundle?
-  File.exists? File.join('vim', 'bundle', 'tpope-vim-pathogen')
+  File.exists? File.join("vim", "bundle", "tpope-vim-pathogen")
 end
 
-
 def list_vim_submodules
-  result=`git submodule -q foreach 'echo $name"||"\`git remote -v | awk "END{print \\\\\$2}"\`'`.select{ |line| line =~ /^vim.bundle/ }.map{ |line| line.split('||') }
+  result = `git submodule -q foreach 'echo $name"||"\`git remote -v | awk "END{print \\\\\$2}"\`'`.select { |line| line =~ /^vim.bundle/ }.map { |line| line.split("||") }
   Hash[*result.flatten]
 end
 
 def apply_theme_to_iterm_profile_idx(index, color_scheme_path)
   values = Array.new
   16.times { |i| values << "Ansi #{i} Color" }
-  values << ['Background Color', 'Bold Color', 'Cursor Color', 'Cursor Text Color', 'Foreground Color', 'Selected Text Color', 'Selection Color']
+  values << ["Background Color", "Bold Color", "Cursor Color", "Cursor Text Color", "Foreground Color", "Selected Text Color", "Selection Color"]
   values.flatten.each { |entry| run %{ /usr/libexec/PlistBuddy -c "Delete :'New Bookmarks':#{index}:'#{entry}'" ~/Library/Preferences/com.googlecode.iterm2.plist } }
 
   run %{ /usr/libexec/PlistBuddy -c "Merge '#{color_scheme_path}' :'New Bookmarks':#{index}" ~/Library/Preferences/com.googlecode.iterm2.plist }
