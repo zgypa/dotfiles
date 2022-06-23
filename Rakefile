@@ -158,7 +158,7 @@ def install_ubuntu_apps
   run %{sudo apt install --yes apt-transport-https curl && sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list && sudo apt update && sudo apt install --yes brave-browser}
   
   # Install other apps
-  run %{sudo apt install --yes tmux htop taskwarrior lazygit docker.io docker-compose git-flow} 
+  run %{sudo apt install --yes tmux shellcheck htop taskwarrior lazygit docker.io docker-compose git-flow} 
 end
 
 def install_homebrew
@@ -182,7 +182,7 @@ def install_homebrew
   puts "======================================================"
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
-  run %{brew install zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop task taskwarrior-tui lazygit gpg git-flow}
+  run %{brew install shellcheck zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop task taskwarrior-tui lazygit gpg git-flow}
   run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick}
   puts
   puts
