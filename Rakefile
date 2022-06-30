@@ -10,7 +10,7 @@ task :install => [:submodule_init, :submodules] do
   puts "======================================================"
   puts
 
-  install_homebrew if RUBY_PLATFORM.downcase.include?("darwin")
+  install_homebrew # if RUBY_PLATFORM.downcase.include?("darwin")
   install_ubuntu_apps if RUBY_PLATFORM.downcase.include?("linux")
   install_rvm_binstubs
 
@@ -182,8 +182,15 @@ def install_homebrew
   puts "======================================================"
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
-  run %{brew install shellcheck zsh ctags git hub tmux reattach-to-user-namespace the_silver_searcher ghi htop task taskwarrior-tui lazygit gpg git-flow}
-  run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick}
+  # Linux and Darwin
+  run %{brew install ctags shellcheck zsh git gh ghi git-flow tmux the_silver_searcher htop task taskwarrior-tui lazygit gpg}
+  
+  # Only Linux
+  # run %{brew install }  if RUBY_PLATFORM.downcase.include?("linux")
+  
+  # Only Darwin
+  run %{brew install attach-to-user-namespace } if RUBY_PLATFORM.downcase.include?("darwin")
+  run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick} if RUBY_PLATFORM.downcase.include?("darwin")
   puts
   puts
 end
