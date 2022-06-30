@@ -189,7 +189,7 @@ def install_homebrew
   # run %{brew install }  if RUBY_PLATFORM.downcase.include?("linux")
   
   # Only Darwin
-  run %{brew install attach-to-user-namespace } if RUBY_PLATFORM.downcase.include?("darwin")
+  run %{brew install figlet attach-to-user-namespace } if RUBY_PLATFORM.downcase.include?("darwin")
   run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick} if RUBY_PLATFORM.downcase.include?("darwin")
   puts
   puts
