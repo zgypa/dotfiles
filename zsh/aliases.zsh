@@ -18,7 +18,7 @@ alias isodate='date --iso-8601 2> /dev/null || date +%F'
 alias isowdate='date +%Y-W%V-%u'
 alias ncal='ncal -Mw -W4'
 alias mycal='ncal -3 -A4'
-alias clock='watch -tn1 "date +"\""%Y-W%V-%u%n%H : %M : %S"\"" | figlet -kf big"'
+alias clock='watch -tn1 "date +"\""%Y-W%V-%u%n%H : %M : %S"\"" | figlet -f big"'
 
 # Taskwarrior
 alias twt='taskwarrior-tui'
