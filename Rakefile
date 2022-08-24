@@ -183,7 +183,7 @@ def install_homebrew
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
   # Linux and Darwin
-  run %{brew install ctags shellcheck zsh git gh ghi git-flow tmux the_silver_searcher htop task taskwarrior-tui lazygit gpg}
+  run %{brew install ctags shellcheck zsh git gh ghi git-flow tmux the_silver_searcher htop task taskwarrior-tui lazygit gpg ncal}
   
   # Only Linux
   # run %{brew install }  if RUBY_PLATFORM.downcase.include?("linux")
