@@ -183,14 +183,14 @@ def install_homebrew
   puts "Installing Homebrew packages...There may be some warnings."
   puts "======================================================"
   # Linux and Darwin
-  run %{brew install ctags shellcheck zsh git gh ghi git-flow tmux the_silver_searcher htop task taskwarrior-tui lazygit gpg ncal}
+  run %{brew install pandoc ctags shellcheck zsh git gh ghi git-flow tmux the_silver_searcher htop task taskwarrior-tui lazygit gpg ncal}
   
   # Only Linux
   # run %{brew install }  if RUBY_PLATFORM.downcase.include?("linux")
   
   # Only Darwin
   run %{brew install figlet attach-to-user-namespace } if RUBY_PLATFORM.downcase.include?("darwin")
-  run %{brew install homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick} if RUBY_PLATFORM.downcase.include?("darwin")
+  run %{brew install homebrew/cask/gnucash homebrew/cask/macvim homebrew/cask/brave-browser homebrew/cask/tor-browser homebrew/cask/vuescan homebrew/cask/handbrake homebrew/cask/tunnelblick} if RUBY_PLATFORM.downcase.include?("darwin")
   puts
   puts
 end
