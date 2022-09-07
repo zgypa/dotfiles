@@ -315,6 +315,16 @@ These hacks are Lion-centric. May not work for other OS'es. My favorite mods inc
   * No disk image verification (downloaded files open quicker)
   * Display the ~/Library folder in finder (hidden in Lion)
 
+### Windows WSL Hacks
+
+Homebrew will not install, gzip is broken, fix it with this:
+
+  echo -en '\x10' | sudo dd of=/usr/bin/gzip count=1 bs=1 conv=notrunc seek=$((0x189))
+
+See https://github.com/microsoft/WSL/issues/8219#issuecomment-1110508016
+
+
+
 ### Macvim troubles with Lua?
 ```
 brew uninstall macvim
