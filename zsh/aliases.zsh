@@ -39,8 +39,8 @@ alias cls='clear;ls'
 alias df='df -h'
 
 if [[ $platform == 'linux' ]]; then
-  alias ll='ls -alh --color=auto'
-  alias ls='ls --color=auto'
+  alias ll='ls -alh --color=auto --time-style=iso'
+  alias ls='ls --color=auto --time-style=iso'
 elif [[ $platform == 'darwin' ]]; then
   alias ll='ls -alGh'
   alias ls='ls -Gh'
